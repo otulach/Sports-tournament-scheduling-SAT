@@ -1,4 +1,5 @@
 import subprocess
+from argparse import ArgumentParser
 
 def getInput():
     try:
@@ -83,7 +84,7 @@ def createCNF(n):
                                                -encode(teams[a], weeks[j], periods[l], n), -encode(teams[b], weeks[j], periods[l], n)]
                             cnf.append(meetAtMostTwice)
 
-    return cnf
+    return cnf, n * (n-1) * (n//2)
 
 def call_solver(cnf, nr_vars, output_name, solver_name, verbosity):
     # print CNF into formula.cnf in DIMACS format
@@ -98,4 +99,59 @@ def call_solver(cnf, nr_vars, output_name, solver_name, verbosity):
 def print_result(result):
     for line in result.stdout.decode('utf-8').split('\n'):
         print(line)
+
+if __name__ == "__main__":
+
+    parser = ArgumentParser()
+
+    parser.add_argument(
+        "-i",
+        "--input",
+        default="input.in",
+        type=str,
+        help=(
+            "The instance file."
+        ),
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="formula.cnf",
+        type=str,
+        help=(
+            "Output file for the DIMACS format (i.e. the CNF formula)."
+        ),
+    )
+    parser.add_argument(
+        "-s",
+        "--solver",
+        default="glucose-syrup",
+        type=str,
+        help=(
+            "The SAT solver to be used."
+        ),
+    )
+    parser.add_argument(
+        "-v",
+        "--verb",
+        default=1,
+        type=int,
+        choices=range(0,2),
+        help=(
+            "Verbosity of the SAT solver used."
+        ),
+    )
+    args = parser.parse_args()
+
+    # get the input instance
+    n = getInput()
+
+    # encode the problem to create CNF formula
+    cnf, nr_vars = createCNF(n)
+
+    # call the SAT solver and get the result
+    result = call_solver(cnf, nr_vars, args.output, args.solver, args.verb)
+
+    # interpret the result and print it in a human-readable format
+    print_result(result)
 
