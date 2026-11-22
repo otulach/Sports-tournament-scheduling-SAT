@@ -1,14 +1,6 @@
 import subprocess
 from argparse import ArgumentParser
 
-def getInput():
-    try:
-        print("Write the amount of teams playing (single integer > 1).")
-        n = int(input()) 
-        return n
-    except:
-        print("Invalid input format.")
-
 def encode(team, week, period, n):
     return team * (n -1) * (n//2) + week * (n//2) + period + 1
 
@@ -38,7 +30,7 @@ def excacltyTwo(literals):
     clauses = atMostTwo(literals)
 
     for a in range(len(literals)):
-        clauses.append([literals[:a] + literals[a+1:]])
+        clauses.append(literals[:a] + literals[a+1:])
 
     return clauses
 
@@ -91,7 +83,7 @@ def call_solver(cnf, nr_vars, output_name, solver_name, verbosity):
     with open(output_name, "w") as file:
         file.write("p cnf " + str(nr_vars) + " " + str(len(cnf)) + '\n')
         for clause in cnf:
-            file.write(' '.join(str(lit) for lit in clause) + '\n')
+            file.write(' '.join(str(lit) for lit in clause) + " " + "0" + '\n')
 
     # call the solver and return the output
     return subprocess.run(['./' + solver_name, '-model', '-verb=' + str(verbosity) , output_name], stdout=subprocess.PIPE)
@@ -110,7 +102,7 @@ if __name__ == "__main__":
         default="input.in",
         type=str,
         help=(
-            "The instance file."
+            "The number of teams playing."
         ),
     )
     parser.add_argument(
@@ -144,7 +136,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # get the input instance
-    n = getInput()
+    n = int(args.input)
 
     # encode the problem to create CNF formula
     cnf, nr_vars = createCNF(n)
