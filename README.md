@@ -58,7 +58,7 @@ We use the following constraints:
 Basic usage:
 
 ```
-sports_scheduling.py [-h] [-i INPUT] [-o OUTPUT] [-s SOLVER] [-v {0,1}]
+scheduler.py [-h] [-i INPUT] [-o OUTPUT] [-s SOLVER] [-v {0,1}]
 ```
 
 Command-line options:
@@ -71,7 +71,7 @@ Command-line options:
 
 Example:
 ```
-python3 sports_scheduling.py -i 6
+python3 scheduler.py -i 6
 ```
 
 The program first prints the raw output of the SAT solver. If the formula is satisfiable, it also prints the tournament schedule as a table with one row per period and one column per week - teams are indexed from 0. 
