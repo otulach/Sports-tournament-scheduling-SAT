@@ -45,7 +45,7 @@ We use the following constraints:
 
     $\neg Plays(t_1,w,p) \vee \neg Plays(t_2,w,p) \vee \neg Plays(t_3,w,p)$ for each $w$ and $p$ ensures that at most two teams play in a match.
 
-    To make sure that at least two teams play, we add, for each team $t'$, a clause containing the literals $Plays(t,w,p)$ of all the other teams $t \neq t'$.
+    To make sure that at least two teams play, we add for each team $t'$, a clause containing the literals $Plays(t,w,p)$ of all the other teams $t \neq t'$.
 
 - Every two teams meet exactly once
 
