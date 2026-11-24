@@ -74,7 +74,9 @@ Example:
 python3 sports_scheduling.py -i 6
 ```
 
-The program first prints the raw output of the SAT solver. If the formula is satisfiable, it also prints the tournament schedule as a table with one row per period and one column per week - teams are indexed from 0. Each cell contains the two teams playing a certain match:
+The program first prints the raw output of the SAT solver. If the formula is satisfiable, it also prints the tournament schedule as a table with one row per period and one column per week - teams are indexed from 0. 
+
+Each cell contains the two teams playing a certain match:
 
 ```
 0 v 1 | 3 v 2 | ...
