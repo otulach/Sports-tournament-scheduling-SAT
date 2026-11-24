@@ -92,6 +92,29 @@ def print_result(result):
     for line in result.stdout.decode('utf-8').split('\n'):
         print(line)
 
+def parseResult(result):
+    for line in result.stdout.decode('utf-8').split('\n'):
+        words = line.split()
+        if words and words[0] == "v":
+            return words[1:-1]
+
+def join(currentString, team):
+    if currentString == "":
+        return str(team)
+    else:
+        return currentString + " v " + str(team)
+
+def createTable(parsedList, n):
+    table = [["" for i in range(n - 1)] for j in range(n // 2)]
+
+    for literal in parsedList:
+        code = int(literal) - 1
+        if int(literal) > 0:
+            t, w, p = decode(code, n)
+            table[p][w] =  join(table[p][w], t)
+
+    return table
+
 if __name__ == "__main__":
 
     parser = ArgumentParser()
@@ -146,4 +169,15 @@ if __name__ == "__main__":
 
     # interpret the result and print it in a human-readable format
     print_result(result)
+    listOfLiterals = parseResult(result)
+    if listOfLiterals:
+        table = createTable(parseResult(result), n)
+        for row in table:
+            line = ""
+            for word in row:
+                if word != row[-1]:
+                    line += word + " | "
+                else:
+                    line += word
+            print(line)
 
